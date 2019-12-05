@@ -1,0 +1,75 @@
+.game {
+    display: inline-block;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: yellow;
+    position: relative;
+}
+    .game > .info {
+        display: inline-block;
+        width: 300px;
+        position: fixed;
+        top: 20px;
+        z-index: 2;
+    }
+        .game > .info.player-0 {
+            left: 20px;
+        }
+        .game > .info.player-1 {
+            right: 5px;
+        }
+        .game > .info > * {
+            display: inline-block;
+            width: 100%;
+            font-weight: bold;
+            font-size: 20px;
+        }
+            .game > .info > * > span {
+                display: inline-block;
+                font-weight: normal;
+            }
+        .game > .info > .speed {
+            display: inline-block;
+            width: 100%;
+            font-size: 30px;
+            line-height: 60px;
+        }
+            .game > .info > .speed > span {
+                display: inline-block;
+                font-size: 60px;
+                font-weight: bold;
+            }
+    .game > .ground {
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -45%);
+    }
+    .game > .ground.sand {
+        background-image: url(../img/tiles/Sand/land_sand05.png);
+    }
+    .game > .ground.grass {
+        background-image: url(../img/tiles/Grass/land_grass11.png);
+    }
+        .game > .ground > .car {
+            display: inline-block;
+            width: 38px;
+            height: 70px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            object-fit: contain;
+            object-position: center;
+        }
+        .game > .ground > .track {
+            display: inline-block;
+            width: 128px;
+            height: 128px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            object-fit: contain;
+            object-position: center;
+        }
