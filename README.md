@@ -2,11 +2,11 @@
 # Spausk gaza
 ### Race game  
 
-This project is for educational porpuses only.
+This project is for educational purposes only. Javascript learning project.
 
 Site published at: https://rimidism.github.io/9-spausk-gaza/
 
 Design assets: Kenney.nl
 
-### Author
-[RimidisM](https://github.com/RimidisM)
+### Author: [RimidisM](https://github.com/RimidisM)
+### Teacher: [Rimantas](https://github.com/belauzas)
