@@ -12,8 +12,8 @@ class SgGame {
         this.DOM = document.querySelector(target);
         this.DOMground;
         this.screenSize = {
-            width: 1500,
-            height: 600
+            width: 1536,
+            height: 640
         }
         this.player1 = new Player(0, playerName1, 'black', '1', 'leftCenter', this.screenSize);
         this.player2 = new Player(1, playerName2, 'blue', '5', 'rightCenter', this.screenSize);
