@@ -226,7 +226,6 @@
         transform: rotate(60deg);
         background-image: url(../img/characters/character_black_red.png);
     }  
-
     .game > .tent {
         display: inline-block;
         width: 128px;

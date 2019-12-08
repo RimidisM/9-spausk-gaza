@@ -2,11 +2,9 @@
  
 import Player from "./car.js";
 
-
 class SgGame {
     constructor ( target, playerName1, playerName2, raceTrack) {
         this.game;
-        
         this.dt = 0;
         this.gameTime = Date.now();
         this.DOM = document.querySelector(target);
@@ -19,8 +17,6 @@ class SgGame {
         this.player2 = new Player(1, playerName2, 'blue', '5', 'rightCenter', this.screenSize);
         this.track = new Player(2, raceTrack, 0, 0, 0, 0);
 
-        
-        
         this.raceTrack = raceTrack || 'grass';
 
         this.init();
@@ -63,9 +59,6 @@ class SgGame {
 
         this.track.trackRender( this.DOMground);
 
-     
-
-        
         this.game = window.requestAnimationFrame(() => {
             this.start()
         })
@@ -79,7 +72,6 @@ class SgGame {
         // Car movement
         this.player1.move( this.dt );
         this.player2.move( this.dt );
-        
 
         window.requestAnimationFrame(() => {
             this.start()

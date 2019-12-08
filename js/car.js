@@ -222,7 +222,6 @@ class Player {
                     this.trackSurface = 'Sand_road';
                     this.trackSurfaceElement = 'tree_small';
                 }
-           
                 if (this.rowHeightCounter < 12) {
                     this.rowHeight = 0;
                 }
@@ -269,10 +268,9 @@ class Player {
         if ( this.speed < -this.maxFwSpeed ) {
             this.speed = -this.maxFwSpeed;
         }
-                    if (!this.keyboardPressed.down) {
-                        this.speed = 0;
-                    }
-
+        if (!this.keyboardPressed.down) {
+            this.speed = 0;
+        }
         if ( this.keyboardPressed.left ) {
             this.direction -= this.wheelTurnSpeed * dt;
         }
@@ -304,6 +302,5 @@ class Player {
         this.DOMcar.style.transform = `rotate(${this.direction}deg)`;
     }
 }
-
 
 export default Player;
