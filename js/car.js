@@ -3,15 +3,15 @@ class Player {
         this.index = index;
         this.DOMcar;
         this.DOMinfo;
-            this.DOMspeed;
-            this.DOMlife;
-            this.DOMdirection;
-            this.DOMturn;
+        this.DOMspeed;
+        this.DOMlife;
+        this.DOMdirection;
+        this.DOMturn;
         this.screenSize = screenSize;
         this.name = name;
         this.carColor = carColor || 'black';
         this.carNumber = carNumber || '4';
-        this.carSize = { width: 38, height: 70 }                // Max speed backword
+        this.carSize = { width: 38, height: 70 }               
         this.position;
         this.speed = 0;
         this.accelaration = 0;
@@ -21,7 +21,7 @@ class Player {
         this.frictionSpeed = 60;                                 // Uncontroled speed decrise
         this.direction = 0;                                      // Car rotation angle
         this.wheelAngle = 0;                                     // Wheel angle
-        this.wheelTurnSpeed = 60;                                // Car rotation speed
+        this.wheelTurnSpeed = 90;                                // Car rotation speed
         this.keyboard;
         this.keyboardPressed = {
             up: false,
@@ -86,7 +86,8 @@ class Player {
         this.DOMinfo.innerHTML = `
             <div class="speed"><span>50</span>km/h</div>
             <div class="direction">Direction: <span>forward || backward</span></div>
-            <div class="turn">Turn: <span>-20deg || 20deg</span></div>
+            <div class="turn">Lap: <span>3</span></div>
+            <div class="turn">Time left: <span>60s</span></div>
         `;
         this.DOMspeed = this.DOMinfo.querySelector('.speed > span');
         this.DOMdirection = this.DOMinfo.querySelector('.direction > span');
@@ -145,19 +146,110 @@ class Player {
     }
 
     trackRender = (DOM) => {
+
+        // 0 - sand
+        // 1 - road north/south
+        // 2 - road east/west
+        // 3 - right turn (top)
+        // 4 - left turn (top)
+        // 5 - right turn (bottom)
+        // 6 - left turn (bottom)
+        // 7 - start/finish
+        // 8 - tree
+
+        const track = [
+            [3, 2, 2, 4, 0, 3, 2, 2, 2, 4, 0, 0],
+            [1, 0, 0, 6, 4, 1, 8, 0, 0, 6, 2, 4],
+            [7, 3, 4, 0, 6, 5, 0, 0, 0, 0, 8, 7],
+            [6, 5, 1, 0, 0, 8, 3, 2, 2, 4, 0, 1],
+            [0, 8, 6, 2, 2, 2, 5, 0, 0, 6, 2, 5]
+        ];
+
+        // Automaticaly generating tarck                
+        this.trackSurface;
+        this.trackSurfaceElement;
+        this.rowHeight = 0;
+        this.rowHeightCounter = 0;
+        this.rowCounter = 0;
+        for (let i = 0; i < track.length; i++) {
+            const trackElement = track[i];    
+            for (let j = 0; j < trackElement.length; j++) {
+                let element = trackElement[j];
+                this.rowHeightCounter++;
+                //Track elements to .png
+                //Sand element
+                if (element === 0) {
+                    this.trackSurface = 'Sand';
+                    this.trackSurfaceElement = 'land_sand05';
+                }
+                //Asphalt road north/south
+                if (element === 1) {
+                    this.trackSurface = 'Asphalt_road';
+                    this.trackSurfaceElement = 'road_asphalt01';
+                }
+                //Asphalt road east/west
+                if (element === 2) {
+                    this.trackSurface = 'Asphalt_road';
+                    this.trackSurfaceElement = 'road_asphalt02';
+                }
+                //Right turn (top)
+                if (element === 3) {
+                    this.trackSurface = 'Asphalt_road';
+                    this.trackSurfaceElement = 'road_asphalt03';
+                }
+                 //Left turn (top)
+                 if (element === 4) {
+                    this.trackSurface = 'Asphalt_road';
+                    this.trackSurfaceElement = 'road_asphalt05';
+                }
+                  //Right turn (bottom)
+                  if (element === 5) {
+                    this.trackSurface = 'Asphalt_road';
+                    this.trackSurfaceElement = 'road_asphalt41';
+                }
+                  //Left turn (bottom)
+                  if (element === 6) {
+                    this.trackSurface = 'Asphalt_road';
+                    this.trackSurfaceElement = 'road_asphalt39';
+                }
+                  //Start/finish
+                  if (element === 7) {
+                    this.trackSurface = 'Asphalt_road';
+                    this.trackSurfaceElement = 'road_asphalt42';
+                }
+                  //Tree
+                  if (element === 8) {
+                    this.trackSurface = 'Sand_road';
+                    this.trackSurfaceElement = 'tree_small';
+                }
+           
+                if (this.rowHeightCounter < 12) {
+                    this.rowHeight = 0;
+                }
+                if (this.rowHeightCounter > 12) {
+                    this.rowHeight = 128 * this.rowCounter;  
+                }
+                if (this.rowHeightCounter > 24) {
+                    this.rowHeight = 128 * this.rowCounter;  
+                }
+
         const raceTrack = `
             <img class="track"
-                src="./img/tiles/Asphalt_road/road_asphalt07.png"
-                data-index="${this.index}"
+                src="./img/tiles/${this.trackSurface}/${this.trackSurfaceElement}.png"
+                
                 style="width: 128px;
                     height: 128px;
-                    top: 0px;
-                    left: 0px;
-                    z-index: -10;
-                    transform: rotate(270deg);">`;
+                    top: ${this.rowHeight}px;
+                    left: ${j * 128}px;
+                    z-index: -5;
+                    transform: rotate(0deg);">`;
         DOM.insertAdjacentHTML('beforeend', raceTrack);
         this.DOMcar = DOM.querySelector(`.raceTrack[data-index="${this.index}"]`);
+        }
+        this.rowCounter++;
+        console.log(this.rowCounter);
     }
+}
  
     positionInfo = () => {
         return [ this.index, this.position.top, this.position.left, this.direction ];
