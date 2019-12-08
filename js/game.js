@@ -17,7 +17,7 @@ class SgGame {
         }
         this.player1 = new Player(0, playerName1, 'black', '1', 'leftCenter', this.screenSize);
         this.player2 = new Player(1, playerName2, 'blue', '5', 'rightCenter', this.screenSize);
-        this.track = new Player(2, raceTrack, 'blue', '5', 'rightCenter', this.screenSize);
+        this.track = new Player(2, raceTrack, 0, 0, 0, 0);
 
         
         
@@ -31,6 +31,33 @@ class SgGame {
         this.DOM.innerHTML = `
             <div class="info player-0"></div>
             <div class="info player-1"></div>
+            <div class="tribuneTop"></div>
+            <div class="tribuneBottom"></div>
+            <div class="treeOne"></div>
+            <div class="treeTwo"></div>
+            <div class="treeThree"></div>
+            <div class="treeFour"></div>
+            <div class="grassLeft"></div>
+            <div class="grassRight"></div>
+            <div class="grassCenter"></div>
+            <div class="grassRightTurn"></div>
+            <div class="grassTopCenter"></div>
+            <div class="grassLeftTurn"></div>
+            <div class="grassCorner"></div>
+            <div class="parking1"></div>
+            <div class="parking2"></div>
+            <div class="parking3"></div>
+            <div class="parking4"></div>
+            <div class="parking5"></div>
+            <div class="parking6"></div>
+            <div class="parking7"></div>
+            <div class="person1"></div>
+            <div class="person2"></div>
+            <div class="person3"></div>
+            <div class="person4"></div>
+            <div class="person5"></div>
+            <div class="person6"></div>
+            <div class="tent"></div>
             <div class="ground"></div>`;
         this.DOMground = this.DOM.querySelector('.ground');
         this.DOMplayer0info = this.DOM.querySelector('.info.player-0');

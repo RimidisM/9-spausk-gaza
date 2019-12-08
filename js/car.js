@@ -11,7 +11,7 @@ class Player {
         this.name = name;
         this.carColor = carColor || 'black';
         this.carNumber = carNumber || '4';
-        this.carSize = { width: 38, height: 70 }                // Max speed backword
+        this.carSize = { width: 38, height: 70 }               
         this.position;
         this.speed = 0;
         this.accelaration = 0;
@@ -21,7 +21,7 @@ class Player {
         this.frictionSpeed = 60;                                 // Uncontroled speed decrise
         this.direction = 0;                                      // Car rotation angle
         this.wheelAngle = 0;                                     // Wheel angle
-        this.wheelTurnSpeed = 60;                                // Car rotation speed
+        this.wheelTurnSpeed = 90;                                // Car rotation speed
         this.keyboard;
         this.keyboardPressed = {
             up: false,
@@ -86,7 +86,8 @@ class Player {
         this.DOMinfo.innerHTML = `
             <div class="speed"><span>50</span>km/h</div>
             <div class="direction">Direction: <span>forward || backward</span></div>
-            <div class="turn">Turn: <span>-20deg || 20deg</span></div>
+            <div class="turn">Lap: <span>3</span></div>
+            <div class="turn">Time left: <span>60s</span></div>
         `;
         this.DOMspeed = this.DOMinfo.querySelector('.speed > span');
         this.DOMdirection = this.DOMinfo.querySelector('.direction > span');
@@ -178,8 +179,8 @@ class Player {
                 //Track elements to .png
                 //Sand element
                 if (element === 0) {
-                    this.trackSurface = 'Sand_road';
-                    this.trackSurfaceElement = 'road_sand18';
+                    this.trackSurface = 'Sand';
+                    this.trackSurfaceElement = 'land_sand05';
                 }
                 //Asphalt road north/south
                 if (element === 1) {
@@ -221,7 +222,6 @@ class Player {
                     this.trackSurface = 'Sand_road';
                     this.trackSurfaceElement = 'tree_small';
                 }
-
            
                 if (this.rowHeightCounter < 12) {
                     this.rowHeight = 0;
@@ -232,8 +232,6 @@ class Player {
                 if (this.rowHeightCounter > 24) {
                     this.rowHeight = 128 * this.rowCounter;  
                 }
-                
-                console.log( this.rowHeight);
 
         const raceTrack = `
             <img class="track"
