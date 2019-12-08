@@ -34,17 +34,10 @@ class SgGame {
             <div class="tribuneTop"></div>
             <div class="tribuneBottom"></div>
             <div class="treeOne"></div>
-            <div class="treeTwo"></div>
             <div class="treeThree"></div>
             <div class="treeFour"></div>
             <div class="grassLeft"></div>
-            <div class="grassRight"></div>
-            <div class="grassCenter"></div>
-            <div class="grassRightTurn"></div>
-            <div class="grassTopCenter"></div>
-            <div class="grassLeftTurn"></div>
             <div class="grassCorner"></div>
-            <div class="parking1"></div>
             <div class="parking2"></div>
             <div class="parking3"></div>
             <div class="parking4"></div>

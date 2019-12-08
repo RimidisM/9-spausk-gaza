@@ -48,7 +48,7 @@
         top: 5%;
         left: 50%;
         transform: translate(-50%, 0%);
-        background-image: url(../img/objects/tribune_full.png)
+        background-image: url(../img/objects/tribune_full.png);
     }       
     .game > .tribuneBottom {
         display: inline-block;
@@ -58,122 +58,53 @@
         top: 82%;
         left: 41%;
         transform: rotate(180deg);
-        background-image: url(../img/objects/tribune_full.png)
+        background-image: url(../img/objects/tribune_full.png);
     }       
     .game > .treeOne {
         display: inline-block;
-        width: 214px;
-        height: 212px;
+        width: 141px;
+        height: 141px;
         position: absolute;
-        top: 82%;
-        left: 70%;
-        background-image: url(../img/objects/tree_large.png)
-    }       
-    .game > .treeTwo {
-        display: inline-block;
-        width: 214px;
-        height: 212px;
-        position: absolute;
-        top: 82%;
-        left: 20%;
-        background-image: url(../img/objects/tree_large.png)
+        top: 80%;
+        left: 90%;
+        background-image: url(../img/objects/tree_small.png);
     }       
     .game > .treeThree {
         display: inline-block;
-        width: 214px;
-        height: 212px;
+        width: 141px;
+        height: 141px;
         position: absolute;
-        top: 5%;
+        top: 4%;
         left: 20%;
-        background-image: url(../img/objects/tree_large.png)
+        background-image: url(../img/objects/tree_small.png);
     }       
     .game > .treeFour {
         display: inline-block;
-        width: 214px;
-        height: 212px;
+        width: 141px;
+        height: 141px;
         position: absolute;
-        top: 5%;
+        top: 4%;
         left: 70%;
-        background-image: url(../img/objects/tree_large.png)
+        background-image: url(../img/objects/tree_small.png);
     }       
     .game > .grassLeft {
         display: inline-block;
         width: 128px;
         height:900px;
         position: absolute;
-        top: 30%;
+        top: 35%;
         left: 0%;
         background-image: url(../img/tiles/Grass/land_grass05.png);
     }       
-    .game > .grassRight {
-        display: inline-block;
-        width: 128px;
-        height:900px;
-        position: absolute;
-        top: 30%;
-        left: 256px;
-        transform: rotate(180deg);
-        background-image: url(../img/tiles/Grass/land_grass05.png);
-    }      
-    .game > .grassCenter {
-        display: inline-block;
-        width: 128px;
-        height:900px;
-        position: absolute;
-        top: 30%;
-        left: 128px;
-        transform: rotate(180deg);
-        background-image: url(../img/tiles/Dirt/land_dirt05.png);
-    }      
-    .game > .grassRightTurn {
-        display: inline-block;
-        width: 128px;
-        height:128px;
-        position: absolute;
-        top: 30%;
-        left: 0px;
-        transform: translate(0px, -128px);
-        background-image: url(../img/tiles/Grass/land_grass01.png);
-    }  
-    .game > .grassTopCenter {
-        display: inline-block;
-        width: 128px;
-        height:128px;
-        position: absolute;
-        top: 30%;
-        left: 128px;
-        transform: translate(0px, -128px);
-        background-image: url(../img/tiles/Grass/land_grass09.png);
-    }  
-    .game > .grassLeftTurn {
-        display: inline-block;
-        width: 128px;
-        height:128px;
-        position: absolute;
-        top: 30%;
-        left: 256px;
-        transform: translate(0px, -128px);
-        background-image: url(../img/tiles/Grass/land_grass02.png);
-    }  
     .game > .grassCorner {
         display: inline-block;
-        width: 422px;
+        width: 141px;
         height:141px;
         position: absolute;
-        top: 25%;
+        top: 37%;
         left: 0px;
         transform: translate(0px, -128px);
         background-image: url(../img/objects/tree_small.png);
-    }  
-    .game > .parking1 {
-        display: inline-block;
-        width: 39px;
-        height:70px;
-        position: absolute;
-        top: 30%;
-        left:65px;
-        transform: rotate(-20deg);
-        background-image: url(../img/cars/car_black_small_4.png);
     }  
     .game > .parking2{
         display: inline-block;
@@ -240,9 +171,9 @@
         width: 52px;
         height:36px;
         position: absolute;
-        top: 28%;
-        left: 420px;
-        transform: rotate(-96deg);
+        top: 21%;
+        left: 120px;
+        transform: rotate(-80deg);
         background-image: url(../img/characters/character_black_red.png);
     }  
     .game > .person2 {
@@ -251,7 +182,7 @@
         height:36px;
         position: absolute;
         top: 28%;
-        left: 80%;
+        left: 90%;
         transform: rotate(-96deg);
         background-image: url(../img/characters/character_black_blue.png);
     }  
@@ -260,8 +191,8 @@
         width: 52px;
         height:36px;
         position: absolute;
-        top: 32%;
-        left: 82%;
+        top: 45%;
+        left: 95%;
         transform: rotate(-96deg);
         background-image: url(../img/characters/character_blonde_red.png);
     }  
@@ -271,7 +202,7 @@
         height:36px;
         position: absolute;
         top: 22%;
-        left: 76%;
+        left: 93%;
         transform: rotate(-96deg);
         background-image: url(../img/characters/character_brown_white.png);
     }  
@@ -281,7 +212,7 @@
         height:36px;
         position: absolute;
         top: 38%;
-        left: 80%;
+        left: 91%;
         transform: rotate(20deg);
         background-image: url(../img/characters/character_blonde_green.png);
     }  
@@ -290,21 +221,21 @@
         width: 52px;
         height:36px;
         position: absolute;
-        top: 42%;
-        left: 83.5%;
-        transform: rotate(-96deg);
+        top: 52%;
+        left: 96%;
+        transform: rotate(60deg);
         background-image: url(../img/characters/character_black_red.png);
     }  
 
     .game > .tent {
         display: inline-block;
-        width: 256px;
-        height:256px;
+        width: 128px;
+        height:128px;
         position: absolute;
         top: 28%;
-        left: 85%;
+        left: 93%;
         transform: rotate(-96deg);
-        background-image: url(../img/objects/tent_blue_large.png);
+        background-image: url(../img/objects/tent_blue.png);
     }      
     .game > .ground {
         display: inline-block;
