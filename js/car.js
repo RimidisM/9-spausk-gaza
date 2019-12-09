@@ -16,7 +16,7 @@ class Player {
         this.speed = 0;
         this.accelaration = 0;
         this.maxBwSpeed = 55;                                    // Max speed backword
-        this.maxFwSpeed = 200;                                   // Max speed forward
+        // this.maxFwSpeed = 200;                                   // Max speed forward
         this.breakingSpeed = 40;                                 // Brake speed
         this.frictionSpeed = 60;                                 // Uncontroled speed decrise
         this.direction = 0;                                      // Car rotation angle
@@ -305,6 +305,7 @@ class Player {
         this.rowHeight = 0;
         this.rowHeightCounter = 0;
         this.rowCounter = 0;
+        this.maxFwSpeed = 200;
 
         for (let i = 0; i < track.length; i++) {
             const trackElement = track[i];    
@@ -322,26 +323,31 @@ class Player {
                     this.rowHeight = 128 * this.rowCounter;  
                 }
 
-                //Tree position in the map
+                //Tree and sand position in the map
+                this.carPositionX = carX;
+                this.carPositionY = carY;
+                this.treePositionX = j * 128;
+                this.treePositionY = this.rowHeight;
+                this.xDistance = (j * 128) - carX;
+                this.yDistance = this.rowHeight - carY;
                 if (element === 8) {
-                    this.treePositionX = j * 128;
-                    this.treePositionY = this.rowHeight;
-                    this.carPositionX = carX;
-                    this.carPositionY = carY;
-                    this.xDistance = (j * 128) - carX;
-                    this.yDistance = this.rowHeight - carY;
-                    
-                    this.colision = Math.sqrt(Math.pow(this.xDistance, 2) + Math.pow(this.yDistance, 2));
-                    
-                    // console.log(this.colision);
-
+                    // Slow speed on crasch
                     if (this.treePositionX < this.carPositionX + 30 && 
                         this.treePositionX + 128 > this.carPositionX && 
                         this.treePositionY < this.carPositionY + 30 && 
                         this.treePositionY + 128 > this.carPositionY ) {
-                        console.log('avarija');
-                        
+                            return this.maxFwSpeed = 20;
+                        }
                     }
+                     //Sand speed 
+                if (element === 0) {
+                    // Slow speed on crasch
+                    if (this.treePositionX < this.carPositionX + 30 && 
+                        this.treePositionX + 128 > this.carPositionX && 
+                        this.treePositionY < this.carPositionY + 30 && 
+                        this.treePositionY + 128 > this.carPositionY ) {
+                            return this.maxFwSpeed = 100;
+                        }
                 }
             }
             this.rowCounter++;
