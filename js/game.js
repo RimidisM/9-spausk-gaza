@@ -57,7 +57,7 @@ class SgGame {
         this.player1.carRender( this.DOMground, this.DOMplayer0info );
         this.player2.carRender( this.DOMground, this.DOMplayer1info );
 
-        this.track.trackRender( this.DOMground);
+        this.track.trackRender( this.DOMground, track);
 
         this.game = window.requestAnimationFrame(() => {
             this.start()
@@ -72,6 +72,7 @@ class SgGame {
         // Car movement
         this.player1.move( this.dt );
         this.player2.move( this.dt );
+        
 
         window.requestAnimationFrame(() => {
             this.start()
