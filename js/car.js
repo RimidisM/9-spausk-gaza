@@ -50,12 +50,12 @@ class Player {
                 left:  (screenSize.width - this.carSize.width) / 2
             },
             leftCenter: {
-                top: (screenSize.height - this.carSize.height) / 2,
-                left: 20
+                top: (screenSize.height - this.carSize.height + 140) / 2,
+                left: 50
             },
             rightCenter: {
-                top: (screenSize.height - this.carSize.height) / 2,
-                left: screenSize.width - this.carSize.width -20
+                top: (screenSize.height - this.carSize.height - 140) / 2,
+                left: screenSize.width - this.carSize.width -50
             },
         }
         this.position = positions[position];
