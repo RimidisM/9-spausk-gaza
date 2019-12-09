@@ -21,7 +21,17 @@ class Player {
         this.frictionSpeed = 60;                                 // Uncontroled speed decrise
         this.direction = 0;                                      // Car rotation angle
         this.wheelAngle = 0;                                     // Wheel angle
-        this.wheelTurnSpeed = 90;                                // Car rotation speed
+        this.wheelTurnSpeed = 90; 
+        
+        this.treePositionX;
+        this.treePositionY;
+        this.carPositionX;
+        this.carPositionY;
+        this.colision;
+        this.xDistance;
+        this.yDistance
+        
+                                                                // Car rotation speed
         this.keyboard;
         this.keyboardPressed = {
             up: false,
@@ -287,16 +297,10 @@ class Player {
         this.getDirection(track, this.position.top,  this.position.left  );
     }
 
-    //Car tree position calculation
+    //Car tree distance calculation
     getDirection = (track, carY, carX) => {
         // Automaticaly generating tarck                
-        this.treePositionX;
-        this.treePositionY;
-        this.carPositionX;
-        this.carPositionY;
-        this.colision;
-        this.xDistance;
-        this.yDistance
+        
 
         this.rowHeight = 0;
         this.rowHeightCounter = 0;
@@ -329,13 +333,16 @@ class Player {
                     
                     this.colision = Math.sqrt(Math.pow(this.xDistance, 2) + Math.pow(this.yDistance, 2));
                     
-                    console.log(this.colision);
-                    
+                    // console.log(this.colision);
 
-
-
+                    if (this.treePositionX < this.carPositionX + 30 && 
+                        this.treePositionX + 128 > this.carPositionX && 
+                        this.treePositionY < this.carPositionY + 30 && 
+                        this.treePositionY + 128 > this.carPositionY ) {
+                        console.log('avarija');
+                        
+                    }
                 }
-                
             }
             this.rowCounter++;
         }

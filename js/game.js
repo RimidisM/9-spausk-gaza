@@ -72,6 +72,7 @@ class SgGame {
         // Car movement
         this.player1.move( this.dt );
         this.player2.move( this.dt );
+        
 
         window.requestAnimationFrame(() => {
             this.start()
