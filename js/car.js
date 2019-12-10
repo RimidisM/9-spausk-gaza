@@ -5,6 +5,7 @@ class Player {
         this.DOMinfo;
         this.DOMspeed;
         this.DOMlife;
+        this.DOMlap;
         this.DOMdirection;
         this.DOMturn;
         this.screenSize = screenSize;
@@ -16,13 +17,11 @@ class Player {
         this.speed = 0;
         this.accelaration = 0;
         this.maxBwSpeed = 55;                                    // Max speed backword
-        // this.maxFwSpeed = 200;                                   // Max speed forward
         this.breakingSpeed = 40;                                 // Brake speed
         this.frictionSpeed = 60;                                 // Uncontroled speed decrise
         this.direction = 0;                                      // Car rotation angle
         this.wheelAngle = 0;                                     // Wheel angle
-        this.wheelTurnSpeed = 90; 
-        
+        this.wheelTurnSpeed = 90;                                // Car rotation speed
         this.treePositionX;
         this.treePositionY;
         this.carPositionX;
@@ -30,8 +29,9 @@ class Player {
         this.colision;
         this.xDistance;
         this.yDistance
+        this.tileSize = 128;
+        this.lap = 0;
         
-                                                                // Car rotation speed
         this.keyboard;
         this.keyboardPressed = {
             up: false,
@@ -96,21 +96,23 @@ class Player {
         this.DOMinfo.innerHTML = `
             <div class="speed"><span>50</span>km/h</div>
             <div class="direction">Direction: <span>forward || backward</span></div>
-            <div class="turn">Lap: <span>3</span></div>
+            <div class="lap">Lap: <span>3</span></div>
             <div class="turn">Time left: <span>60s</span></div>
         `;
         this.DOMspeed = this.DOMinfo.querySelector('.speed > span');
         this.DOMdirection = this.DOMinfo.querySelector('.direction > span');
         this.DOMturn = this.DOMinfo.querySelector('.turn > span');
+        this.DOMlap = this.DOMinfo.querySelector('.lap > span');
 
-        const car = `<img class="car"
-                        src="./img/cars/car_${this.carColor}_small_${this.carNumber}.png"
-                        data-index="${this.index}"
-                        style="width: ${this.carSize.width}px;
-                            height: ${this.carSize.height}px;
-                            top: ${this.position.top}px;
-                            left: ${this.position.left}px;
-                            transform: rotate(${this.direction}deg);">`;
+        const car = `
+            <img class="car"
+                src="./img/cars/car_${this.carColor}_small_${this.carNumber}.png"
+                data-index="${this.index}"
+                style="width: ${this.carSize.width}px;
+                    height: ${this.carSize.height}px;
+                    top: ${this.position.top}px;
+                    left: ${this.position.left}px;
+                    transform: rotate(${this.direction}deg);">`;
         DOM.insertAdjacentHTML('beforeend', car);
         this.DOMcar = DOM.querySelector(`.car[data-index="${this.index}"]`);
 
@@ -128,7 +130,6 @@ class Player {
                 case this.keyboard.right:
                     this.keyboardPressed.right = true;
                     break;
-               
                 default:
                     break;
             }
@@ -148,7 +149,6 @@ class Player {
                 case this.keyboard.right:
                     this.keyboardPressed.right = false;
                     break;
-               
                 default:
                     break;
             }
@@ -234,7 +234,7 @@ class Player {
                             transform: rotate(0deg);">`;
                 DOM.insertAdjacentHTML('beforeend', raceTrack);
                 this.DOMcar = DOM.querySelector(`.raceTrack[data-index="${this.index}"]`);
-                }
+            }
                 this.rowCounter++;
         }
     }
@@ -278,10 +278,7 @@ class Player {
         }
         this.DOMdirection.textContent = this.direction;
 
-        this.position.top += Math.sin((this.direction + 90) / 180 * Math.PI) * this.speed * dt;
-          
-             
-                
+        this.position.top += Math.sin((this.direction + 90) / 180 * Math.PI) * this.speed * dt;  
         this.position.left += Math.cos((this.direction + 90) / 180 * Math.PI) * this.speed * dt;
 
         // Game area limits
@@ -300,12 +297,12 @@ class Player {
     //Car tree distance calculation
     getDirection = (track, carY, carX) => {
         // Automaticaly generating tarck                
-        
 
         this.rowHeight = 0;
         this.rowHeightCounter = 0;
         this.rowCounter = 0;
         this.maxFwSpeed = 200;
+       
 
         for (let i = 0; i < track.length; i++) {
             const trackElement = track[i];    
@@ -317,42 +314,83 @@ class Player {
                     this.rowHeight = 0;
                 }
                 if (this.rowHeightCounter > 12) {
-                    this.rowHeight = 128 * this.rowCounter;  
+                    this.rowHeight = this.tileSize * this.rowCounter;  
                 }
                 if (this.rowHeightCounter > 24) {
-                    this.rowHeight = 128 * this.rowCounter;  
+                    this.rowHeight = this.tileSize * this.rowCounter;  
                 }
 
                 //Tree and sand position in the map
                 this.carPositionX = carX;
                 this.carPositionY = carY;
-                this.treePositionX = j * 128;
-                this.treePositionY = this.rowHeight;
-                this.xDistance = (j * 128) - carX;
+                this.tilePositionX = j * this.tileSize;
+                this.tilePositionY = this.rowHeight;
+                this.xDistance = (j * this.tileSize) - carX;
                 this.yDistance = this.rowHeight - carY;
+               
+              
                 if (element === 8) {
                     // Slow speed on crasch
-                    if (this.treePositionX < this.carPositionX + 30 && 
-                        this.treePositionX + 128 > this.carPositionX && 
-                        this.treePositionY < this.carPositionY + 30 && 
-                        this.treePositionY + 128 > this.carPositionY ) {
+                    if (this.tilePositionX < this.carPositionX + 15 && 
+                        this.tilePositionX + this.tileSize > this.carPositionX && 
+                        this.tilePositionY < this.carPositionY + 15 && 
+                        this.tilePositionY + this.tileSize > this.carPositionY ) {
                             return this.maxFwSpeed = 20;
                         }
                     }
                      //Sand speed 
                 if (element === 0) {
                     // Slow speed on crasch
-                    if (this.treePositionX < this.carPositionX + 30 && 
-                        this.treePositionX + 128 > this.carPositionX && 
-                        this.treePositionY < this.carPositionY + 30 && 
-                        this.treePositionY + 128 > this.carPositionY ) {
+                    if (this.tilePositionX < this.carPositionX + 15 && 
+                        this.tilePositionX + this.tileSize > this.carPositionX && 
+                        this.tilePositionY < this.carPositionY + 15 && 
+                        this.tilePositionY + this.tileSize > this.carPositionY ) {
                             return this.maxFwSpeed = 100;
-                        }
+                    }
                 }
+                 //Lap counter
+                
+                 if (element === 7) {
+                    if (this.tilePositionX < this.carPositionX + 15 && 
+                        this.tilePositionX + this.tileSize > this.carPositionX && 
+                        this.tilePositionY < this.carPositionY + 2 && 
+                        this.tilePositionY + 1 > this.carPositionY ) {
+                            
+                            this.lapCount();
+                            return this.lap = 1 ;
+
+                    }
+                    
+                }
+                
             }
-            this.rowCounter++;
+                this.rowCounter++;
+
+
         }
+       
+      
+
+       
+
     }
+    
+
+
+
+    lapCount = () => {
+       
+       this.asd = 0;
+        
+    
+        
+        this.asd = this.lap;
+        
+        
+        console.log(this.asd);
+        
+    }  
+
 }
 
 export default Player;
