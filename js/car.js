@@ -213,6 +213,11 @@ class Player {
                     this.trackSurface = 'Sand_road';
                     this.trackSurfaceElement = 'tree_small';
                 }
+                 //Check point 
+                 if (element === 9) {
+                    this.trackSurface = 'Asphalt_road';
+                    this.trackSurfaceElement = 'road_asphalt43';
+                }
                 if (this.rowHeightCounter < 12) {
                     this.rowHeight = 0;
                 }
@@ -305,11 +310,12 @@ class Player {
        
 
         for (let i = 0; i < track.length; i++) {
-            const trackElement = track[i];    
+            const trackElement = track[i];  
+
             for (let j = 0; j < trackElement.length; j++) {
                 let element = trackElement[j];
                 this.rowHeightCounter++;
-
+               
                 if (this.rowHeightCounter < 12) {
                     this.rowHeight = 0;
                 }
@@ -328,7 +334,6 @@ class Player {
                 this.xDistance = (j * this.tileSize) - carX;
                 this.yDistance = this.rowHeight - carY;
                
-              
                 if (element === 8) {
                     // Slow speed on crasch
                     if (this.tilePositionX < this.carPositionX + 15 && 
@@ -350,47 +355,62 @@ class Player {
                 }
                  //Lap counter
                 
-                 if (element === 7) {
+                if (element === 7 || element === 9 ) {
                     if (this.tilePositionX < this.carPositionX + 15 && 
                         this.tilePositionX + this.tileSize > this.carPositionX && 
-                        this.tilePositionY < this.carPositionY + 2 && 
+                        this.tilePositionY < this.carPositionY + 3 && 
                         this.tilePositionY + 1 > this.carPositionY ) {
+
+                        if (element === 7) {
+                            this.checkpoint = j;
+                            this.pointTime = new Date() -1;
                             
                             this.lapCount();
-                            return this.lap = 1 ;
-
+                        }
                     }
-                    
                 }
-                
+                if (element === 9 ) {
+                    if (this.tilePositionX < this.carPositionX + 3 && 
+                        this.tilePositionX + 1 > this.carPositionX && 
+                        this.tilePositionY < this.carPositionY + 15 && 
+                        this.tilePositionY + this.tileSize > this.carPositionY ) {
+
+                        if (element === 9) {
+                            this.checkpoint = j;
+                            this.pointTime = new Date() -1;
+                            
+                            this.lapCount();
+                        }
+                    }
+                }
             }
-                this.rowCounter++;
-
-
+            this.rowCounter++;       
         }
-       
-      
-
-       
-
     }
-    
-
-
 
     lapCount = () => {
-       
-       this.asd = 0;
-        
-    
-        
-        this.asd = this.lap;
-        
-        
-        console.log(this.asd);
-        
-    }  
 
+        if (this.checkpoint === 11) {
+            console.log('check  1');
+            
+        }
+        if (this.checkpoint === 4) {
+            console.log('check  2');
+            
+        }
+        if (this.checkpoint === 0) {
+            console.log('check  3');
+            
+        }
+        if (this.checkpoint === 7) {
+            console.log('check  4');
+            
+        }
+        
+
+
+       
+    }  
 }
 
 export default Player;
