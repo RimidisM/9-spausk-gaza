@@ -429,21 +429,19 @@ class Player {
         this.lap = 0;
 
         if (this.checkpoint === 11) {
-            this.checkOne = 'a';
-           
-            console.log('check  1');
-            
+            // console.log('check  1');
+            this.checkOne = 'a';  
         }
         if (this.checkpoint === 4) {
-            console.log('check  2');
+            // console.log('check  2');
             this.checkTwo = 'b';
         }
         if (this.checkpoint === 0) {
-            console.log('check  3');
+            // console.log('check  3');
             this.checkThree = 'c';
         }
         if (this.checkpoint === 7) {
-            console.log('check  4');
+            // console.log('check  4');
             this.checkFour = 'd';
         }
 
