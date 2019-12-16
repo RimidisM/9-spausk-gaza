@@ -56,11 +56,11 @@ class Player {
                 left:  (screenSize.width - this.carSize.width) / 2
             },
             leftCenter: {
-                top: (screenSize.height - this.carSize.height + 140) / 2,
+                top: (screenSize.height - this.carSize.height - 128) / 2,
                 left: 50
             },
             rightCenter: {
-                top: (screenSize.height - this.carSize.height - 140) / 2,
+                top: (screenSize.height - this.carSize.height + 128) / 2,
                 left: screenSize.width - this.carSize.width -50
             },
         }
@@ -206,10 +206,15 @@ class Player {
                     this.trackSurface = 'Asphalt_road';
                     this.trackSurfaceElement = 'road_asphalt39';
                 }
-                  //Start/finish
+                  //Start/finish right
                   if (element === 7) {
                     this.trackSurface = 'Asphalt_road';
                     this.trackSurfaceElement = 'road_asphalt42';
+                }
+                //Start/finish left
+                if (element === 77) {
+                    this.trackSurface = 'Asphalt_road';
+                    this.trackSurfaceElement = 'road_asphalt42L';
                 }
                   //Tree
                   if (element === 8) {
@@ -377,16 +382,27 @@ class Player {
                 }
                  //Lap counter
                 
-                if (element === 7 || element === 9 ) {
+                if (element === 7 ) {
                     if (this.tilePositionX < this.carPositionX + 15 && 
                         this.tilePositionX + this.tileSize > this.carPositionX && 
-                        this.tilePositionY < this.carPositionY + 3 && 
-                        this.tilePositionY + 1 > this.carPositionY ) {
+                        this.tilePositionY - 45 < this.carPositionY + 3 && 
+                        this.tilePositionY - 45 + 1 > this.carPositionY ) {
 
                         if (element === 7) {
                             this.checkpoint = j;
-                            this.pointTime = new Date() -1;
-                            
+                            this.lapCount();
+                        }
+                    }
+                }
+                
+                if (element === 77) {
+                    if (this.tilePositionX < this.carPositionX + 15 && 
+                        this.tilePositionX + this.tileSize > this.carPositionX && 
+                        this.tilePositionY + 110 < this.carPositionY + 3 && 
+                        this.tilePositionY + 110 + 1 > this.carPositionY ) {
+
+                        if (element === 77) {
+                            this.checkpoint = j;
                             this.lapCount();
                         }
                     }
@@ -400,7 +416,6 @@ class Player {
                         if (element === 9) {
                             this.checkpoint = j;
                             this.pointTime = new Date() -1;
-                            
                             this.lapCount();
                         }
                     }
@@ -416,19 +431,19 @@ class Player {
         if (this.checkpoint === 11) {
             this.checkOne = 'a';
            
-            // console.log('check  1');
+            console.log('check  1');
             
         }
         if (this.checkpoint === 4) {
-            // console.log('check  2');
+            console.log('check  2');
             this.checkTwo = 'b';
         }
         if (this.checkpoint === 0) {
-            // console.log('check  3');
+            console.log('check  3');
             this.checkThree = 'c';
         }
         if (this.checkpoint === 7) {
-            // console.log('check  4');
+            console.log('check  4');
             this.checkFour = 'd';
         }
 
