@@ -17,7 +17,7 @@ class Player {
         this.speed = 0;
         this.maxBwSpeed = 55;                                    // Max speed backword
         this.breakingSpeed = 40;                                 // Brake speed
-        this.frictionSpeed = 60;                                 // Uncontroled speed decrise
+        this.frictionSpeed = 100;                                 // Uncontroled speed decrise
         this.direction = 0;                                      // Car rotation angle
         this.wheelAngle = 0;                                     // Wheel angle
         this.wheelTurnSpeed = 90;                                // Car rotation speed
@@ -254,10 +254,10 @@ class Player {
             this.speed -= this.maxFwSpeed * dt;
         }
         //Forward speed decrease if no speed added
-        if (this.keyboardPressed.down === false && this.keyboardPressed.up === false &&  this.speed !=0 ) {
+        if (this.keyboardPressed.down === false && this.keyboardPressed.up === false &&  this.speed !==0 ) {
             
             if ( this.speed > 0) {
-                this.speed = 0;
+                this.speed = -2;
             }
             this.speed += this.frictionSpeed * dt;
         }
@@ -282,15 +282,37 @@ class Player {
         }
 
         this.DOMspeed.textContent = Math.round(this.speed * (-1));
-
+        
         this.position.top += Math.sin((this.direction + 90) / 180 * Math.PI) * this.speed * dt;  
         this.position.left += Math.cos((this.direction + 90) / 180 * Math.PI) * this.speed * dt;
   
         // Game area limits
-        if ( this.position.top < 0 ) this.position.top = 0;
-        if ( this.position.top > this.screenSize.height - this.carSize.height ) this.position.top = this.screenSize.height - this.carSize.height;
-        if ( this.position.left < 0 ) this.position.left = 0;
-        if ( this.position.left > this.screenSize.width - this.carSize.width ) this.position.left = this.screenSize.width - this.carSize.width;
+        if ( this.position.top < 0 ) {
+            this.position.top = 0;
+            if ( this.keyboardPressed.down ) {
+                this.speed += 500 * dt;
+            }
+        }
+
+        if ( this.position.top > this.screenSize.height - this.carSize.height ) {
+            this.position.top = this.screenSize.height - this.carSize.height;
+            if ( this.keyboardPressed.down ) {
+                this.speed += 500 * dt;
+            }
+        }
+        if ( this.position.left < 0 ) {
+            this.position.left = 0;
+            if ( this.keyboardPressed.down ) {
+                this.speed += 500 * dt;
+            }
+        }
+        if ( this.position.left > this.screenSize.width - this.carSize.width ) {
+            this.position.left = this.screenSize.width - this.carSize.width;
+            if ( this.keyboardPressed.down ) {
+                this.speed += 500 * dt;
+            }
+        
+        }
 
         this.DOMcar.style.top = this.position.top + 'px';
         this.DOMcar.style.left = this.position.left + 'px';
@@ -336,10 +358,10 @@ class Player {
                
                 if (element === 8) {
                     // Slow speed on crasch
-                    if (this.tilePositionX < this.carPositionX + 15 && 
-                        this.tilePositionX + this.tileSize > this.carPositionX && 
-                        this.tilePositionY < this.carPositionY + 15 && 
-                        this.tilePositionY + this.tileSize > this.carPositionY ) {
+                    if (this.tilePositionX < this.carPositionX + 10 && 
+                        this.tilePositionX + this.tileSize -50 > this.carPositionX && 
+                        this.tilePositionY < this.carPositionY + 10 && 
+                        this.tilePositionY + this.tileSize -50 > this.carPositionY ) {
                             return this.maxFwSpeed = 20;
                         }
                     }
