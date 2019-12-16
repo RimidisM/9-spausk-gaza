@@ -40,6 +40,59 @@
                 font-size: 60px;
                 font-weight: bold;
             }
+        .game > .info > .winner {
+            display: inline-block;
+            width: 100%;
+            font-size: 30px;
+            line-height: 60px;
+        }
+            .game > .info > .winner > span {
+                display: inline-block;
+                font-size: 60px;
+                font-weight: bold;
+                color: red;
+            }
+        .game > .thisGameOver-0 {
+            display: inline-block;
+            width: 650px;
+            position: absolute;
+            top: 300px;
+            left: 630px;
+            z-index: 2;
+        }
+            .thisGameOver-0 > .gameOver {
+                display: inline-block;
+                width: 100%;
+                padding: 10px;
+                font-size: 60px;
+                line-height: 70px;
+                letter-spacing: 2px;
+                font-weight: bold;
+                color: red;
+                text-align: center;
+                border-radius: 30px;
+            }
+            .game > .thisGameOver-1 {
+                display: inline-block;
+                width: 650px;
+                position: absolute;
+                top: 300px;
+                left: 630px;
+                z-index: 2;
+            }
+                .thisGameOver-1 > .gameOver {
+                    display: inline-block;
+                    width: 100%;
+                    padding: 10px;
+                    font-size: 60px;
+                    line-height: 70px;
+                    letter-spacing: 2px;
+                    font-weight: bold;
+                    color: red;
+                    text-align: center;
+                    border-radius: 30px;
+                }
+        
     .game > .tribuneTop {
         display: inline-block;
         width: 448px;

@@ -27,6 +27,8 @@ class SgGame {
         this.DOM.innerHTML = `
             <div class="info player-0"></div>
             <div class="info player-1"></div>
+            <div class="thisGameOver-0"></div>
+            <div class="thisGameOver-1"></div>
             <div class="tribuneTop"></div>
             <div class="tribuneBottom"></div>
             <div class="treeOne"></div>
@@ -51,12 +53,15 @@ class SgGame {
         this.DOMground = this.DOM.querySelector('.ground');
         this.DOMplayer0info = this.DOM.querySelector('.info.player-0');
         this.DOMplayer1info = this.DOM.querySelector('.info.player-1');
+        this.DOMthisGameOver0 = this.DOM.querySelector('.thisGameOver-0');
+        this.DOMthisGameOver1 = this.DOM.querySelector('.thisGameOver-1');
         this.DOMground.style.width = this.screenSize.width + 'px';
         this.DOMground.style.height = this.screenSize.height + 'px';
         this.DOMground.classList.add(this.raceTrack);
-        this.player1.carRender( this.DOMground, this.DOMplayer0info );
-        this.player2.carRender( this.DOMground, this.DOMplayer1info );
+        this.player1.carRender( this.DOMground, this.DOMplayer0info, this.DOMthisGameOver0 );
+        this.player2.carRender( this.DOMground, this.DOMplayer1info, this.DOMthisGameOver1 );
         this.track.trackRender( this.DOMground, track);
+        
 
         this.game = window.requestAnimationFrame(() => {
             this.start()

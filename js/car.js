@@ -3,35 +3,31 @@ class Player {
         this.index = index;
         this.DOMcar;
         this.DOMinfo;
+        this.DOMGameOver;
+        this.GameOver;
         this.DOMspeed;
-        this.DOMlife;
         this.DOMlap;
         this.DOMdirection;
-        this.DOMturn;
+        this.DOMwinner;
         this.screenSize = screenSize;
-        this.name = name;
         this.carColor = carColor || 'black';
         this.carNumber = carNumber || '4';
         this.carSize = { width: 38, height: 70 }               
         this.position;
         this.speed = 0;
-        this.accelaration = 0;
         this.maxBwSpeed = 55;                                    // Max speed backword
         this.breakingSpeed = 40;                                 // Brake speed
         this.frictionSpeed = 60;                                 // Uncontroled speed decrise
         this.direction = 0;                                      // Car rotation angle
         this.wheelAngle = 0;                                     // Wheel angle
         this.wheelTurnSpeed = 90;                                // Car rotation speed
-        this.treePositionX;
-        this.treePositionY;
         this.carPositionX;
         this.carPositionY;
-        this.colision;
         this.xDistance;
         this.yDistance
         this.tileSize = 128;
         this.lap = 0;
-        
+        this.rounding = 0;
         this.keyboard;
         this.keyboardPressed = {
             up: false,
@@ -68,7 +64,7 @@ class Player {
                 left: screenSize.width - this.carSize.width -50
             },
         }
-        this.position = positions[position];
+        this.position = positions[position];    
     }
 
     setInitialDirection( position ) {
@@ -84,26 +80,33 @@ class Player {
     setKeybind() {
         // Keyboard keys kodes
         const sets = [
-            { up: 83, down: 87, right: 68, left: 65},
-            { up: 40, down: 38, right: 39, left: 37}
+            { up: 87, down: 83, right: 68, left: 65},
+            { up: 38, down: 40, right: 39, left: 37}
         ];
 
         this.keyboard = sets[this.index];
     }
 
-    carRender = ( DOM, infoDOM ) => {
+    carRender = ( DOM, infoDOM, DOMthisGameOver ) => {
         this.DOMinfo = infoDOM;
+        this.DOMendGame = DOMthisGameOver;
+
         this.DOMinfo.innerHTML = `
             <div class="speed"><span>50</span>km/h</div>
-            <div class="direction">Direction: <span>forward || backward</span></div>
-            <div class="lap">Lap: <span>3</span></div>
-            <div class="turn">Time left: <span>60s</span></div>
+            <div class="lap">Lap: <span>0</span></div>
+            <div class="winner"><span></span></div>
         `;
+
+        this.DOMendGame.innerHTML = `
+            <span class="gameOver"></span>
+        `;
+
         this.DOMspeed = this.DOMinfo.querySelector('.speed > span');
         this.DOMdirection = this.DOMinfo.querySelector('.direction > span');
-        this.DOMturn = this.DOMinfo.querySelector('.turn > span');
+        this.DOMwinner = this.DOMinfo.querySelector('.winner > span');
         this.DOMlap = this.DOMinfo.querySelector('.lap > span');
-
+        this.DOMgameOver = this.DOMendGame.querySelector('.gameOver');
+    
         const car = `
             <img class="car"
                 src="./img/cars/car_${this.carColor}_small_${this.carNumber}.png"
@@ -213,6 +216,11 @@ class Player {
                     this.trackSurface = 'Sand_road';
                     this.trackSurfaceElement = 'tree_small';
                 }
+                 //Check point 
+                 if (element === 9) {
+                    this.trackSurface = 'Asphalt_road';
+                    this.trackSurfaceElement = 'road_asphalt43';
+                }
                 if (this.rowHeightCounter < 12) {
                     this.rowHeight = 0;
                 }
@@ -239,18 +247,25 @@ class Player {
         }
     }
     
- 
-    positionInfo = () => {
-        return [ this.index, this.position.top, this.position.left, this.direction ];
-    }    
-
     move = ( dt ) => {
+
+        //Forward speed
         if ( this.keyboardPressed.up ) {
-            this.speed += this.maxBwSpeed * dt;
-        }
-        if ( this.keyboardPressed.down ) {
             this.speed -= this.maxFwSpeed * dt;
         }
+        //Forward speed decrease if no speed added
+        if (this.keyboardPressed.down === false && this.keyboardPressed.up === false &&  this.speed !=0 ) {
+            
+            if ( this.speed > 0) {
+                this.speed = 0;
+            }
+            this.speed += this.frictionSpeed * dt;
+        }
+        //Backward speed
+        if ( this.keyboardPressed.down ) {
+            this.speed += this.maxBwSpeed * dt;
+        }
+
         // Max speed limit
         if ( this.speed > this.maxBwSpeed ) {
             this.speed = this.maxBwSpeed;
@@ -258,9 +273,7 @@ class Player {
         if ( this.speed < -this.maxFwSpeed ) {
             this.speed = -this.maxFwSpeed;
         }
-        if (!this.keyboardPressed.down) {
-            this.speed = 0;
-        }
+       
         if ( this.keyboardPressed.left ) {
             this.direction -= this.wheelTurnSpeed * dt;
         }
@@ -268,19 +281,11 @@ class Player {
             this.direction += this.wheelTurnSpeed * dt;
         }
 
-        this.DOMspeed.textContent = Math.round(Math.abs(this.speed));
-        if ( this.speed > 0 ) {
-            this.DOMdirection.textContent = 'forward';
-        } else if ( this.speed < 0 ) {
-            this.DOMdirection.textContent = 'backward';
-        } else {
-            this.DOMdirection.textContent = 'stopped';
-        }
-        this.DOMdirection.textContent = this.direction;
+        this.DOMspeed.textContent = Math.round(this.speed * (-1));
 
         this.position.top += Math.sin((this.direction + 90) / 180 * Math.PI) * this.speed * dt;  
         this.position.left += Math.cos((this.direction + 90) / 180 * Math.PI) * this.speed * dt;
-
+  
         // Game area limits
         if ( this.position.top < 0 ) this.position.top = 0;
         if ( this.position.top > this.screenSize.height - this.carSize.height ) this.position.top = this.screenSize.height - this.carSize.height;
@@ -305,11 +310,12 @@ class Player {
        
 
         for (let i = 0; i < track.length; i++) {
-            const trackElement = track[i];    
+            const trackElement = track[i];  
+
             for (let j = 0; j < trackElement.length; j++) {
                 let element = trackElement[j];
                 this.rowHeightCounter++;
-
+               
                 if (this.rowHeightCounter < 12) {
                     this.rowHeight = 0;
                 }
@@ -328,7 +334,6 @@ class Player {
                 this.xDistance = (j * this.tileSize) - carX;
                 this.yDistance = this.rowHeight - carY;
                
-              
                 if (element === 8) {
                     // Slow speed on crasch
                     if (this.tilePositionX < this.carPositionX + 15 && 
@@ -350,47 +355,83 @@ class Player {
                 }
                  //Lap counter
                 
-                 if (element === 7) {
+                if (element === 7 || element === 9 ) {
                     if (this.tilePositionX < this.carPositionX + 15 && 
                         this.tilePositionX + this.tileSize > this.carPositionX && 
-                        this.tilePositionY < this.carPositionY + 2 && 
+                        this.tilePositionY < this.carPositionY + 3 && 
                         this.tilePositionY + 1 > this.carPositionY ) {
+
+                        if (element === 7) {
+                            this.checkpoint = j;
+                            this.pointTime = new Date() -1;
                             
                             this.lapCount();
-                            return this.lap = 1 ;
-
+                        }
                     }
-                    
                 }
-                
+                if (element === 9 ) {
+                    if (this.tilePositionX < this.carPositionX + 3 && 
+                        this.tilePositionX + 1 > this.carPositionX && 
+                        this.tilePositionY < this.carPositionY + 15 && 
+                        this.tilePositionY + this.tileSize > this.carPositionY ) {
+
+                        if (element === 9) {
+                            this.checkpoint = j;
+                            this.pointTime = new Date() -1;
+                            
+                            this.lapCount();
+                        }
+                    }
+                }
             }
-                this.rowCounter++;
-
-
+            this.rowCounter++;       
         }
-       
-      
-
-       
-
     }
-    
-
-
 
     lapCount = () => {
-       
-       this.asd = 0;
-        
-    
-        
-        this.asd = this.lap;
-        
-        
-        console.log(this.asd);
-        
-    }  
+        this.lap = 0;
 
+        if (this.checkpoint === 11) {
+            this.checkOne = 'a';
+           
+            // console.log('check  1');
+            
+        }
+        if (this.checkpoint === 4) {
+            // console.log('check  2');
+            this.checkTwo = 'b';
+        }
+        if (this.checkpoint === 0) {
+            // console.log('check  3');
+            this.checkThree = 'c';
+        }
+        if (this.checkpoint === 7) {
+            // console.log('check  4');
+            this.checkFour = 'd';
+        }
+
+        this.lap = this.checkTwo + this.checkThree + this.checkFour + this.checkOne;
+
+        // console.log(this.lap);
+
+        if (this.lap === 'bcda') {
+            this.lap = 0;
+            this.checkOne = 0;
+            this.checkTwo = 0;
+            this.checkThree = 0; 
+            this.checkFour = 0;
+
+            this.rounding = this.rounding + 1 ;
+            this.DOMlap.textContent = this.rounding;
+        }
+        if (this.rounding === 3) {
+            this.DOMwinner.textContent = 'WINNER';
+
+            this.DOMgameOver.textContent = 'We have a winner!!! If you want to play again refresh the page (ctrl + r).';
+            this.color = 'black';
+            this.DOMgameOver.style.background = this.color;
+        }
+    }  
 }
 
 export default Player;
