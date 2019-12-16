@@ -6,37 +6,28 @@ class Player {
         this.DOMGameOver;
         this.GameOver;
         this.DOMspeed;
-        this.DOMlife;
         this.DOMlap;
         this.DOMdirection;
         this.DOMwinner;
         this.screenSize = screenSize;
-        this.name = name;
         this.carColor = carColor || 'black';
         this.carNumber = carNumber || '4';
         this.carSize = { width: 38, height: 70 }               
         this.position;
         this.speed = 0;
-        this.accelaration = 0;
         this.maxBwSpeed = 55;                                    // Max speed backword
         this.breakingSpeed = 40;                                 // Brake speed
         this.frictionSpeed = 60;                                 // Uncontroled speed decrise
         this.direction = 0;                                      // Car rotation angle
         this.wheelAngle = 0;                                     // Wheel angle
         this.wheelTurnSpeed = 90;                                // Car rotation speed
-        this.treePositionX;
-        this.treePositionY;
         this.carPositionX;
         this.carPositionY;
-        this.colision;
         this.xDistance;
         this.yDistance
         this.tileSize = 128;
         this.lap = 0;
-        
-
         this.rounding = 0;
-
         this.keyboard;
         this.keyboardPressed = {
             up: false,
@@ -89,8 +80,8 @@ class Player {
     setKeybind() {
         // Keyboard keys kodes
         const sets = [
-            { up: 83, down: 87, right: 68, left: 65},
-            { up: 40, down: 38, right: 39, left: 37}
+            { up: 87, down: 83, right: 68, left: 65},
+            { up: 38, down: 40, right: 39, left: 37}
         ];
 
         this.keyboard = sets[this.index];
@@ -257,16 +248,22 @@ class Player {
     }
     
     move = ( dt ) => {
-        if ( this.keyboardPressed.up ) {
-            this.speed += this.maxBwSpeed * dt;
-        }else { 
-        this.speed -= this.frictionSpeed * dt;
-        }
 
-        if ( this.keyboardPressed.down ) {
+        //Forward speed
+        if ( this.keyboardPressed.up ) {
             this.speed -= this.maxFwSpeed * dt;
-        }else {
-        this.speed += this.frictionSpeed * dt;
+        }
+        //Forward speed decrease if no speed added
+        if (this.keyboardPressed.down === false && this.keyboardPressed.up === false &&  this.speed !=0 ) {
+            
+            if ( this.speed > 0) {
+                this.speed = 0;
+            }
+            this.speed += this.frictionSpeed * dt;
+        }
+        //Backward speed
+        if ( this.keyboardPressed.down ) {
+            this.speed += this.maxBwSpeed * dt;
         }
 
         // Max speed limit
@@ -284,7 +281,7 @@ class Player {
             this.direction += this.wheelTurnSpeed * dt;
         }
 
-        this.DOMspeed.textContent = Math.round(Math.abs(this.speed));
+        this.DOMspeed.textContent = Math.round(this.speed * (-1));
 
         this.position.top += Math.sin((this.direction + 90) / 180 * Math.PI) * this.speed * dt;  
         this.position.left += Math.cos((this.direction + 90) / 180 * Math.PI) * this.speed * dt;
@@ -392,9 +389,6 @@ class Player {
     }
 
     lapCount = () => {
-
-        
-        
         this.lap = 0;
 
         if (this.checkpoint === 11) {
@@ -430,7 +424,7 @@ class Player {
             this.rounding = this.rounding + 1 ;
             this.DOMlap.textContent = this.rounding;
         }
-        if (this.rounding === 1) {
+        if (this.rounding === 3) {
             this.DOMwinner.textContent = 'WINNER';
 
             this.DOMgameOver.textContent = 'We have a winner!!! If you want to play again refresh the page (ctrl + r).';
