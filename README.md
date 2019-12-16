@@ -4,7 +4,7 @@
 
 This project is for educational purposes only. Javascript learning project.
 
-PC Site published at: https://rimidism.github.io/9-spausk-gaza/
+PC ONLY Site published at: https://rimidism.github.io/9-spausk-gaza/
 
 Design assets: Kenney.nl
 
